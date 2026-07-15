@@ -30,7 +30,7 @@ all_tickers = STOCKS
 selected_tickers = st.sidebar.multiselect(
     "Select Stocks",
     options=all_tickers,
-    default=["AAPL", "TSLA"],
+    default=["Apple(AAPL)", "Tesla(TSLA)"],
 )
 
 period = st.sidebar.selectbox(
@@ -52,7 +52,7 @@ st.sidebar.markdown("---")
 st.sidebar.caption("Data sourced from Yahoo Finance via yfinance")
 
 # ── Main ──────────────────────────────────────────────────────────────────────
-st.title("📊 Stock Price Tracker")
+st.title("Stock Price Tracker")
 st.markdown("Track, analyze, and compare stock prices with moving averages and return metrics.")
 
 if not selected_tickers:

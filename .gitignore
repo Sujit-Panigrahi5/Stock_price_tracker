@@ -1,0 +1,20 @@
+#python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+#Database ( regenerated automatically )
+data/stocks.db
+data/*.db
+
+#jupyter checkpoints
+.ipynb_checkpoints/
+
+#Environment
+.venv/
+.env
+
+#OS files   
+.DS_Store
+Thumbs.db
