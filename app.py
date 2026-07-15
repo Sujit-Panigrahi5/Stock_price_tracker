@@ -30,7 +30,7 @@ all_tickers = STOCKS
 selected_tickers = st.sidebar.multiselect(
     "Select Stocks",
     options=all_tickers,
-    default=["Apple(AAPL)", "Tesla(TSLA)"],
+    default=["AAPL", "TSLA"],
 )
 
 period = st.sidebar.selectbox(
