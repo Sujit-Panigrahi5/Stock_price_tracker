@@ -30,7 +30,7 @@ all_tickers = STOCKS
 selected_tickers = st.sidebar.multiselect(
     "Select Stocks",
     options=all_tickers,
-    default=["AAPL", "TSLA"],
+    default=["META", "TCS.NS"],
 )
 
 period = st.sidebar.selectbox(
@@ -63,6 +63,7 @@ if not selected_tickers:
 stock_data = {}
 for ticker in selected_tickers:
     df = load_stock_data(ticker)
+    
     if df.empty:
         st.warning(f"No data for {ticker}. Click 'Fetch Latest Data' in the sidebar.")
         continue

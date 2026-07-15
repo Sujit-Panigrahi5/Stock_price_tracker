@@ -1,4 +1,4 @@
-STOCKS = ["AAPL", "TSLA", "GOOGL", "MSFT", "AMZN"]
+STOCKS = ["META", "TCS.NS", "GOOGL", "MSFT", "AMZN"]
 
 PERIOD = "6mo"
 
