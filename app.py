@@ -4,6 +4,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 import sys
 import os
+from datetime import datetime, timedelta
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
@@ -39,6 +40,17 @@ period = st.sidebar.selectbox(
     index=2,
 )
 
+PERIOD_DAYS = {
+    "1mo": 30,
+    "3mo": 90,
+    "6mo": 180,
+    "1y": 365,
+    "2y": 730,
+}
+
+def period_cutoff(p:str):
+    return datetime.today().date() - timedelta(days=PERIOD_DAYS.get(p, 180))
+
 if st.sidebar.button("🔄 Fetch Latest Data", use_container_width=True):
     with st.spinner("Fetching data from Yahoo Finance..."):
         for ticker in selected_tickers:
@@ -61,11 +73,18 @@ if not selected_tickers:
 
 # Load and enrich data
 stock_data = {}
+cutoff = period_cutoff(period)
 for ticker in selected_tickers:
     df = load_stock_data(ticker)
     
     if df.empty:
         st.warning(f"No data for {ticker}. Click 'Fetch Latest Data' in the sidebar.")
+        continue
+    df = df.dropna(subset=["close"])
+    df["data"]= pd.to_datetime(df["date"])
+    df= df[df["data"].dt.date >= cutoff].copy()
+    if df.empty:
+        st.warning(f"No data for {ticker} in the selected period ({period}).")
         continue
     df = enrich(df)
     stock_data[ticker] = df
@@ -75,7 +94,7 @@ if not stock_data:
     st.stop()
 
 # ── Summary Cards ─────────────────────────────────────────────────────────────
-st.subheader("Summary")
+st.subheader(f"Summary - {period} Period")
 cols = st.columns(len(stock_data))
 
 for col, (ticker, df) in zip(cols, stock_data.items()):
@@ -85,9 +104,9 @@ for col, (ticker, df) in zip(cols, stock_data.items()):
     arrow = "▲" if ret >= 0 else "▼"
 
     col.metric(
-        label=f"{ticker}",
+        label=f"{ticker} (current price)",
         value=f"${stats['end_price']}",
-        delta=f"{arrow} {ret}% total return",
+        delta=f"{arrow} {ret}% over {period} (was ${stats['start_price']})",
     )
 
 st.markdown("---")

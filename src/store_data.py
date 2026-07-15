@@ -36,7 +36,8 @@ def save_stock_data(df: pd.DataFrame):
     if df.empty:
         print("  Nothing to save.")
         return
-
+    import math
+    df = df.dropna(subset=["close"])
     conn = get_connection()
     saved = 0
     skipped = 0
@@ -53,7 +54,7 @@ def save_stock_data(df: pd.DataFrame):
                 row["High"],
                 row["Low"],
                 row["Close"],
-                int(row["Volume"])
+                int(row["Volume"]) if not math.isnan(float(row["Volume"])) else 0
             ))
             if conn.execute("SELECT changes()").fetchone()[0]:
                 saved += 1
