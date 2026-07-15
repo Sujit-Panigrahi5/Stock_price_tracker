@@ -186,7 +186,7 @@ Fetches data, saves to DB, and saves charts to `/charts` folder.
 Edit `config.py` to change default settings:
 
 ```python
-STOCKS = ["AAPL", "TSLA", "GOOGL", "MSFT", "AMZN"]  # stocks to track
+STOCKS = ["MDTA", "TCS", "GOOGL", "MSFT", "AMZN"]  # stocks to track
 PERIOD = "6mo"                                         # data period
 SHORT_MA = 7                                           # short moving average days
 LONG_MA = 30                                           # long moving average days
